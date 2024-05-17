@@ -25,7 +25,7 @@ def main(nodes):
     t1 = time()
     print(t1)
     # operate with 3+1 node and n+1 nodes as well
-    print("1 > EMPTY CLUSTER OF THREE NODES\n\n")
+    print("1 > CREATE CLUSTER OF THREE EMPTY NODES\n\n")
     result = create_cluster.create_cluster(nodes)
     print(f"{result}\n")
     print_time(time()-t1)
@@ -33,14 +33,29 @@ def main(nodes):
     wait(10)
     count(2)
 
+    # st1 = time()
+    # #we need to wait for some time before writing keys otherwise cluster down error occurs
+    # print(f"3 > WRITE KEYS\n\n")
+    # result = write_keys.write_keys(nodes)
+    # print(f"{result}\n")
+    # print_time(time() - st1)
+
     st1 = time()
     #we need to wait for some time before writing keys otherwise cluster down error occurs
     print(f"3 > WRITE KEYS\n\n")
-    result = write_keys.write_keys(nodes)
+    result = write_keys.write_keys_to_single_master(nodes, 1000000)
     print(f"{result}\n")
     print_time(time() - st1)
     
     count(4)
+
+    st1 = time()
+    print("7 > REBALANCE\n\n")
+    result= rebalance.rebalance_cluster(nodes["node2"]["ip"], nodes["node2"]["port"])
+    print(f"{result}\n" )
+    print_time(time() - st1)
+    
+    count(8)
     
     st1 = time()
     print("5 > ADD MASTER\n\n")
@@ -91,3 +106,9 @@ def main(nodes):
 file = open("./inventory.json")
 nodes = json.load(file)
 main(nodes)
+
+# 7,656,482 written out of 10M  7,656,482  7,656,482 7,656,482
+# 672,378  written out of 1M 972,357 972,357 972,307
+# increases after rebalance
+
+# sum the total number of keys

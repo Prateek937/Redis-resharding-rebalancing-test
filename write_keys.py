@@ -5,12 +5,12 @@ import hashlib
 def calculate_slot(key):
     return hashlib.sha1(key.encode('utf-8')).hexdigest()
 
-def write_keys(cluster):
+def write_keys(cluster, key_count):
     # Connect to the Redis cluster
     rc = redis.Redis(host=cluster["node1"]["ip"], port=int(cluster["node1"]["port"]), decode_responses=True)
 
     # Write 1000 keys evenly distributed among all masters
-    for i in range(10):
+    for i in range(key_count):
         key = f'key{i}'
         slot = int(calculate_slot(key), 16) % 16384  # 16384 is the total number of slots in Redis
         try:
@@ -30,7 +30,21 @@ def write_keys(cluster):
                 rc.set(key, f'value{i}')
             except:
                 return e
-    return "Keys written successfully."
+    return f"{key_count} keys written successfully."
 
     
-
+def write_keys_to_single_master(cluster, key_count):
+    rc = redis.Redis(host=cluster["node1"]["ip"], port=int(cluster["node1"]["port"]), decode_responses=True)
+    for i in range(key_count):
+        key = f'key{i}'
+        try:
+            rc.set(key, f'value{i}')
+        except redis.exceptions.ResponseError as e:
+            try:
+                # If MOVED response received, reconnect to the correct Redis instance
+                new_host, new_port = str(e).split()[2].split(':')
+                rc = redis.Redis(host=new_host, port=int(new_port), decode_responses=True)
+                rc.set(key, f'value{i}')
+            except:
+                return e
+    return f"{key_count} keys written successfully."

@@ -1,0 +1,107 @@
+1715271917.2964313
+1 > EMPTY CLUSTER OF THREE NODES
+
+
+[OK] All nodes agree about slots configuration.
+[OK] All 16384 slots covered.
+
+Time Taken: 2.032299280166626
+
+Waiting for 10 seconds...
+2 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 0 keys | 5461 slots | 0 slaves.
+35.154.17.117:6379 (73701993...) -> 0 keys | 5461 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 0 keys | 5462 slots | 0 slaves.
+
+3 > WRITE KEYS
+
+
+Keys written successfully.
+
+Time Taken: 1924.676228761673
+
+4 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 333310 keys | 5461 slots | 0 slaves.
+35.154.17.117:6379 (73701993...) -> 333315 keys | 5461 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 305732 keys | 5462 slots | 0 slaves.
+
+5 > ADD MASTER
+
+
+[OK] New node added correctly.
+
+Time Taken: 0.012946605682373047
+
+Waiting for 10 seconds...
+6 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 333310 keys | 5461 slots | 0 slaves.
+13.232.58.81:6379 (f82a5dc3...) -> 0 keys | 0 slots | 0 slaves.
+35.154.17.117:6379 (73701993...) -> 333315 keys | 5461 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 305732 keys | 5462 slots | 0 slaves.
+
+7 > REBALANCE
+
+
+>>> Rebalancing across 4 nodes. Total weight = 4.00
+
+Time Taken: 76.89146041870117
+
+8 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 250022 keys | 4096 slots | 0 slaves.
+13.232.58.81:6379 (f82a5dc3...) -> 243085 keys | 4096 slots | 0 slaves.
+35.154.17.117:6379 (73701993...) -> 250000 keys | 4096 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 229250 keys | 4096 slots | 0 slaves.
+
+Waiting for 15 seconds...
+9> RESHARD
+
+
+Ready to move 4096 slots.
+
+Time Taken: 81.83465957641602
+
+Waiting for 15 seconds...
+10 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 493107 keys | 8192 slots | 1 slaves.
+35.154.17.117:6379 (73701993...) -> 250000 keys | 4096 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 229250 keys | 4096 slots | 0 slaves.
+
+11 > REBALANCE
+
+
+>>> Rebalancing across 3 nodes. Total weight = 3.00
+
+Time Taken: 51.10208511352539
+
+12 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 326427 keys | 5461 slots | 1 slaves.
+35.154.17.117:6379 (73701993...) -> 333349 keys | 5462 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 312581 keys | 5461 slots | 0 slaves.
+
+13 > REMOVE 4TH NDOE
+
+
+OK
+
+Time Taken: 0.007230281829833984
+
+14 > COUNT NODES
+
+
+13.234.231.124:6379 (797191f8...) -> 326427 keys | 5461 slots | 0 slaves.
+35.154.17.117:6379 (73701993...) -> 333349 keys | 5462 slots | 0 slaves.
+65.2.176.209:6379 (d364a54f...) -> 312581 keys | 5461 slots | 0 slaves.
+
+Time Taken: 2186.683382987976
