@@ -1,0 +1,168 @@
+1715921508.8410652
+1 > CREATE CLUSTER OF THREE EMPTY NODES
+
+
+
+
+Time Taken: 0.0033566951751708984
+Waiting for 10 seconds...
+2 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 0 keys | 5461 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 0 keys | 5462 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 0 keys | 5461 slots | 0 slaves.
+
+3 > WRITE KEYS
+
+
+1000000 keys written successfully.
+
+Time Taken: 1018.6844165325165
+4 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 333310 keys | 5461 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 333375 keys | 5462 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 333315 keys | 5461 slots | 0 slaves.
+
+7 > REBALANCE
+
+
+ERROR >>> >>> Performing Cluster Check (using node 172.31.5.80:6379)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+*** No rebalancing needed! All nodes are within the 2.00% threshold.
+
+Time Taken: 0.0055196285247802734
+8 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 333310 keys | 5461 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 333375 keys | 5462 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 333315 keys | 5461 slots | 0 slaves.
+
+5 > ADD MASTER
+
+
+[OK] New node added correctly.
+
+Time Taken: 0.011108875274658203
+Waiting for 10 seconds...
+6 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 333310 keys | 5461 slots | 0 slaves.
+172.31.5.177:6379 (edf1a06b...) -> 0 keys | 0 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 333375 keys | 5462 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 333315 keys | 5461 slots | 0 slaves.
+
+7 > REBALANCE
+
+
+>>> Rebalancing across 4 nodes. Total weight = 4.00
+
+Time Taken: 71.6055121421814
+8 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 250022 keys | 4096 slots | 0 slaves.
+172.31.5.177:6379 (edf1a06b...) -> 249957 keys | 4096 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 250021 keys | 4096 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 250000 keys | 4096 slots | 0 slaves.
+
+Waiting for 15 seconds...
+9> RESHARD
+
+
+Ready to move 4096 slots.
+
+Time Taken: 69.70695924758911
+Waiting for 15 seconds...
+10 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 499979 keys | 8192 slots | 1 slaves.
+172.31.5.80:6379 (27351df6...) -> 250021 keys | 4096 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 250000 keys | 4096 slots | 0 slaves.
+
+11 > REBALANCE
+
+
+>>> Rebalancing across 3 nodes. Total weight = 3.00
+
+Time Taken: 22.776492595672607
+12 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 333299 keys | 5461 slots | 1 slaves.
+172.31.5.80:6379 (27351df6...) -> 333352 keys | 5461 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 333349 keys | 5462 slots | 0 slaves.
+
+13 > REMOVE 4TH NDOE
+
+
+OK
+
+Time Taken: 0.006169795989990234
+14 > COUNT NODES
+
+
+172.31.5.134:6379 (a8c14995...) -> 333299 keys | 5461 slots | 0 slaves.
+172.31.5.80:6379 (27351df6...) -> 333352 keys | 5461 slots | 0 slaves.
+172.31.5.170:6379 (a850f266...) -> 333349 keys | 5462 slots | 0 slaves.
+
+Time Taken: 1232.9121353626251
+
+-------------------------------------------
+
+1715938883.9846976
+1 > CREATE CLUSTER OF THREE EMPTY NODES
+
+
+[OK] All nodes agree about slots configuration.
+[OK] All 16384 slots covered.
+
+Time Taken: 1.2728908061981201
+Waiting for 10 seconds...
+2 > COUNT NODES
+
+
+172.31.5.107:6379 (760f94c8...) -> 0 keys | 5461 slots | 0 slaves.
+172.31.5.247:6379 (eb4c6723...) -> 0 keys | 5461 slots | 0 slaves.
+172.31.5.188:6379 (ec69b988...) -> 0 keys | 5462 slots | 0 slaves.
+
+3 > WRITE KEYS
+
+
+MOVED 9950 172.31.5.188:6379
+
+Time Taken: 9924.25849199295
+4 > COUNT NODES
+
+
+172.31.5.107:6379 (760f94c8...) -> 2098738 keys | 5461 slots | 0 slaves.
+172.31.5.247:6379 (eb4c6723...) -> 1102647 keys | 5461 slots | 0 slaves.
+172.31.5.188:6379 (ec69b988...) -> 2099240 keys | 5462 slots | 0 slaves.
+
+7 > REBALANCE
+
+
+ERROR >>> >>> Performing Cluster Check (using node 172.31.5.188:6379)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+*** No rebalancing needed! All nodes are within the 2.00% threshold.
+
+Time Taken: 0.006608247756958008
+8 > COUNT NODES
+
+
+172.31.5.107:6379 (760f94c8...) -> 2098738 keys | 5461 slots | 0 slaves.
+172.31.5.247:6379 (eb4c6723...) -> 1102647 keys | 5461 slots | 0 slaves.
+172.31.5.188:6379 (ec69b988...) -> 2099240 keys | 5462 slots | 0 slaves.
+
+5 > ADD MASTER

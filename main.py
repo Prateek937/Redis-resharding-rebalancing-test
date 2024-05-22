@@ -8,6 +8,8 @@ import rebalance
 import reshard
 import remove_master
 
+KEY_COUNT = 100
+
 def count(step):
     print(f"{str(step)} > COUNT NODES\n\n")
     result= count_slot_key.count_slot_key(nodes["node1"]["ip"], nodes["node1"]["port"])
@@ -21,6 +23,7 @@ def print_time(time_taken):
     print("Time Taken:", time_taken)
 
 def main(nodes):
+    global KEY_COUNT
     #console log time stamp and numner of keys tested with
     t1 = time()
     print(t1)
@@ -33,17 +36,18 @@ def main(nodes):
     wait(10)
     count(2)
 
-    # st1 = time()
-    # #we need to wait for some time before writing keys otherwise cluster down error occurs
-    # print(f"3 > WRITE KEYS\n\n")
-    # result = write_keys.write_keys(nodes)
-    # print(f"{result}\n")
-    # print_time(time() - st1)
-
     st1 = time()
     #we need to wait for some time before writing keys otherwise cluster down error occurs
-    print(f"3 > WRITE KEYS\n\n")
-    result = write_keys.write_keys_to_single_master(nodes, 1000000)
+    print(f"3 > WRITE KEYS METHOD 1\n\n")
+    result = write_keys.write_keys(nodes, KEY_COUNT)
+    print(f"{result}\n")
+    print_time(time() - st1)
+
+    count(4)
+
+    st1 = time()
+    print(f"3 > WRITE KEYS METHOD 2\n\n")
+    result = write_keys.write_keys_to_single_master(nodes, KEY_COUNT)
     print(f"{result}\n")
     print_time(time() - st1)
     

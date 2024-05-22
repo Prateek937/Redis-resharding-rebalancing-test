@@ -10,6 +10,7 @@ def write_keys(cluster, key_count):
     rc = redis.Redis(host=cluster["node1"]["ip"], port=int(cluster["node1"]["port"]), decode_responses=True)
 
     # Write 1000 keys evenly distributed among all masters
+    count_execption = 0
     for i in range(key_count):
         key = f'key{i}'
         slot = int(calculate_slot(key), 16) % 16384  # 16384 is the total number of slots in Redis
@@ -23,6 +24,7 @@ def write_keys(cluster, key_count):
                 rc = redis.Redis(host=cluster["node3"]["ip"], port=int(cluster["node3"]["port"]), decode_responses=True)
                 rc.set(key, f'value{i}')
         except redis.exceptions.ResponseError as e:
+            count_execption += 1
             try:
                 # If MOVED response received, reconnect to the correct Redis instance
                 new_host, new_port = str(e).split()[2].split(':')
@@ -30,16 +32,19 @@ def write_keys(cluster, key_count):
                 rc.set(key, f'value{i}')
             except:
                 return e
+    print("Method1:", count_execption)
     return f"{key_count} keys written successfully."
 
     
 def write_keys_to_single_master(cluster, key_count):
     rc = redis.Redis(host=cluster["node1"]["ip"], port=int(cluster["node1"]["port"]), decode_responses=True)
+    count_exception = 0
     for i in range(key_count):
         key = f'key{i}'
         try:
             rc.set(key, f'value{i}')
         except redis.exceptions.ResponseError as e:
+            count_exception += 1
             try:
                 # If MOVED response received, reconnect to the correct Redis instance
                 new_host, new_port = str(e).split()[2].split(':')
@@ -47,4 +52,5 @@ def write_keys_to_single_master(cluster, key_count):
                 rc.set(key, f'value{i}')
             except:
                 return e
+    print("Method2:", count_exception)
     return f"{key_count} keys written successfully."
